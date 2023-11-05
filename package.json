@@ -3,24 +3,32 @@
   "version": "1.0.0",
   "description": "team-maker gisoon",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "test": "test",
-    "dev": "node build/index.js",
-    "build": "tsc --build",
-    "start": "node src/index.js",
-    "deploy": "node deploy-command.js"
+    "dev": "tsc --noEmit && node --experimental-specifier-resolution=node src/index.js",
+    "init": "tsc && node --experimental-specifier-resolution=node dist/init.js",
+    "build": "tsc",
+    "start": "tsc && node --experimental-specifier-resolution=node dist/index.js",
+    "deploy": "tsc && node --experimental-specifier-resolution=node deploy-command.js"
   },
   "author": "jaeminkim",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.6.0",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "erlpack": "^0.1.4",
+    "node-fetch": "^3.3.2",
+    "sqlite3": "^5.1.6",
+    "typeorm": "^0.3.11",
+    "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
     "@typescript-eslint/parser": "^5.43.0",
+    "bun-types": "^1.0.8",
     "eslint": "^8.27.0",
-    "typescript": "^4.9.3"
+    "typescript": "^5.2.2"
   }
 }
