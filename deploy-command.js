@@ -1,20 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { REST, Routes } = require('discord.js');
-const fs = require('node:fs');
-const dotenv = require('dotenv');
+import { REST, Routes } from 'discord.js';
+import dotenv from 'dotenv';
+import * as commands from './dist/commands';
 
 dotenv.config();
 
-const commands = [];
-// Grab all the command files from the commands directory you created earlier
-const commandFiles = fs
-  .readdirSync('./build/commands')
-  .filter((file) => file.endsWith('.js'));
+const commandList = [];
 
-// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
-for (const file of commandFiles) {
-  const command = require(`./build/commands/${file}`);
-  commands.push(command.data.toJSON());
+for (const key of Object.keys(commands)) {
+  const command = commands[key];
+  commandList.push(command.data.toJSON());
 }
 
 // Construct and prepare an instance of the REST module
@@ -33,12 +28,12 @@ const rest = new REST({ version: '10' }).setToken(process.env.token);
         process.env.clientId,
         process.env.guildId
       ),
-      { body: commands }
+      { body: commandList }
     );
     // const data = await rest.put(
     //   Routes.applicationCommands(process.env.clientId),
     //   {
-    //     body: commands,
+    //     body: commandList,
     //   }
     // );
 
