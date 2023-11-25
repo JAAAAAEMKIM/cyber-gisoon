@@ -2,8 +2,8 @@
 import dotenv from 'dotenv';
 import AppDataSource from './dataSource';
 
-import * as commands from './commands'
-import * as events from './events'
+import * as commands from './commands';
+import * as events from './events';
 
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
 
@@ -11,7 +11,7 @@ dotenv.config();
 
 AppDataSource.initialize()
   .then(() => {
-    console.log('datasource init');    // here you can start to work with your database
+    console.log('datasource init'); // here you can start to work with your database
   })
   .catch((error) => console.log(error));
 
@@ -22,18 +22,17 @@ const client = new Client({
 
 client.commands = new Collection();
 
-for (let key of Object.keys(commands)) {
+for (const key of Object.keys(commands)) {
   const command = commands[key];
   client.commands.set(command.data.name, command);
 }
-for (let key of Object.keys(events)) {
+for (const key of Object.keys(events)) {
   const event = events[key];
   if (event.once) {
     client.once(event.name, (...args) => event.execute(...args));
   } else {
     client.on(event.name, (...args) => event.execute(...args));
   }
-
 }
 
 // Log in to Discord with your client's token
